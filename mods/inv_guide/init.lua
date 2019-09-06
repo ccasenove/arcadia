@@ -88,23 +88,3 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 ]]
 
-minetest.register_craft_predict(function(itemstack, player, old_craft_grid, craft_inv)
-	print("register_craft_predict -------------")
-	print("name: "..itemstack:get_name())
-	local player_meta = player:get_meta()
-	local player_items = minetest.deserialize(player_meta:get_string("invguide:items")) or {}
-	if not player_items[itemstack:get_name()] then
-		itemstack:clear()
-	end
-end)
-
-minetest.register_chatcommand("unlock_craft", {
-	func = function(playername, itemname)
-		local player = minetest.get_player_by_name(playername)
-		local player_meta = player:get_meta()
-		local player_items = minetest.deserialize(player_meta:get_string("invguide:items")) or {}
-		player_items[itemname] = true
-		player_meta:set_string("invguide:items", minetest.serialize(player_items))
-		return true
-	end
-})
